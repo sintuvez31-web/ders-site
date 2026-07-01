@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'gizli_anahtar_123'
 
 BIN_ID = '6a452d96f5f4af5e294e2344'
-MASTER_KEY = '$2a$10$Vm/z9QlARXZ/0VCmOwuF7.0Y0lx4OMxSR9b8gTy4Sv5aR4U3A822O'
+MASTER_KEY = 'BURAYA_KENDI_MASTER_KEYINI_YAZ'
 
 def load_data():
     try:
@@ -14,7 +14,13 @@ def load_data():
         return response.json().get('record', {})
     except: return {}
 
-@app.route('/', methods=['GET', 'POST'])
+# Ana sayfaya girince direkt login'e yönlendir
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
+
+# Login yolu tekrar eklendi, hata almayacaksın
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     hata = None
     if request.method == 'POST':
