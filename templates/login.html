@@ -6,8 +6,11 @@
     <style>
         body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .login-container { background: white; padding: 40px; border-radius: 16px; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        h1 { color: #007bff; font-size: 40px; margin-bottom: 20px; font-weight: bold; }
-        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 15px; border-radius: 10px; font-size: 26px; font-weight: bold; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4); }
+        
+        /* BAŞLIĞI BURADA GÖRÜNÜR YAPTIM */
+        h1 { color: #ff0000; font-size: 40px; margin-bottom: 20px; font-weight: bold; display: block; }
+        
+        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 15px; border-radius: 10px; font-size: 26px; font-weight: bold; margin-bottom: 25px; }
         .error { color: #dc3545; font-size: 18px; font-weight: bold; background: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
         input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin-top: 10px; border: 2px solid #bbbbbb; border-radius: 8px; box-sizing: border-box; font-size: 18px; }
         button { width: 100%; padding: 18px; background: #28a745; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 22px; font-weight: bold; margin-top: 25px; }
@@ -16,8 +19,7 @@
 <body>
 
 <div class="login-container">
-    <h1>İLY TEACHER</h1>
-    <div class="indirim-banner">🔥 %10 NAKİT İNDİRİMİ!</div>
+    <h1>İLY TEACHER</h1> <div class="indirim-banner">🔥 %10 NAKİT İNDİRİMİ!</div>
 
     {% if hata %} <p class="error">{{ hata }}</p> {% endif %}
 
