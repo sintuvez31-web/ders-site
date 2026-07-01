@@ -2,28 +2,70 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Paneli</title>
+    <title>İLY TEACHER - Yönetim Paneli</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; }
+        
+        /* Sidebar */
+        .sidebar { width: 250px; background: var(--primary); color: white; height: 100vh; padding: 20px; position: fixed; }
+        .sidebar h2 { font-size: 20px; text-align: center; margin-bottom: 30px; }
+        .sidebar a { color: #bdc3c7; display: block; padding: 10px; text-decoration: none; border-bottom: 1px solid #34495e; }
+        .sidebar a:hover { color: white; background: #34495e; }
+
+        /* Main Content */
+        .main { margin-left: 290px; padding: 30px; width: calc(100% - 320px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        /* Kartlar */
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Tablo */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
+        th { background: #f8f9fa; padding: 15px; text-align: left; border-bottom: 2px solid #dee2e6; color: #333; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #fdfdfd; }
+        
+        .badge { background: #e1f5fe; color: #0288d1; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>Admin Paneli</h1>
-    
-    <a href="/admin/add" style="display: inline-block; background: green; color: white; padding: 10px; text-decoration: none; border-radius: 5px;">+ Yeni Öğrenci Ekle</a>
-    <a href="/logout" style="margin-left: 10px; color: red;">Çıkış Yap</a>
-    
-    <hr>
-    
-    <h2>Kayıtlı Öğrenciler</h2>
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Kullanıcı Adı</th>
-            <th>Ad Soyad</th>
-        </tr>
-        {% for username, data in students.items() %}
-        <tr>
-            <td>{{ username }}</td>
-            <td>{{ data.name }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
+<div class="sidebar">
+    <h2>İLY TEACHER PANEL</h2>
+    <a href="#">Genel Bakış</a>
+    <a href="#">Öğrenciler</a>
+    <a href="/logout" style="color: #e74c3c; margin-top: 50px;">Çıkış Yap</a>
+</div>
+
+<div class="main">
+    <div class="header">
+        <h1>Dashboard</h1>
+        <p>Hoş geldin, <strong>Admin</strong></p>
+    </div>
+
+    <div class="card">
+        <h3>Öğrenci Listesi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kullanıcı</th>
+                    <th>Ad Soyad</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for username, info in students.items() %}
+                <tr>
+                    <td><strong>{{ username }}</strong></td>
+                    <td>{{ info.name }}</td>
+                    <td><span class="badge">Aktif</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
