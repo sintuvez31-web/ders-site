@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'cok_gizli_anahtar_123'
 
 BIN_ID = '6a452d96f5f4af5e294e2344'
-MASTER_KEY = 'BURAYA_KENDI_MASTER_KEYINI_YAZ'
+MASTER_KEY = '$2a$10$Vm/z9QlARXZ/0VCmOwuF7.0Y0lx4OMxSR9b8gTy4Sv5aR4U3A822O'
 HEADERS = {'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}
 
 def load_data():
