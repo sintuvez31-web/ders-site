@@ -1,0 +1,16 @@
+{
+    "admin": {
+        "password": "ily123",
+        "name": "Admin Panel",
+        "phone": "000",
+        "balance": 0,
+        "total_attended_courses": 0
+    },
+    "sinan": {
+        "password": "123",
+        "name": "sinan elmas",
+        "phone": "5305253989",
+        "balance": 2,
+        "total_attended_courses": 5
+    }
+}

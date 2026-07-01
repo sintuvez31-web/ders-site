@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İLY TEACHER - Giriş</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --input-border: #bbbbbb;
+            --label-color: #444444;
+            --box-bg: #f8f9fa;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --input-border: #444444;
+            --label-color: #bbbbbb;
+            --box-bg: #2d2d2d;
+        }
+
+        body { 
+            font-family: Arial, sans-serif; 
+            background: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0;
+            padding: 20px 0;
+            transition: background 0.3s ease;
+        }
+        .login-container { 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            width: 420px; 
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        h1 { color: #007bff; font-size: 40px; margin-top: 10px; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px; }
+        
+        .indirim-banner {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(255, 75, 43, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        label { display: block; text-align: left; font-size: 20px; font-weight: bold; margin-top: 15px; color: var(--label-color); }
+        input[type="text"], input[type="password"] { 
+            width: 100%; 
+            padding: 15px; 
+            margin-top: 5px; 
+            border: 2px solid var(--input-border); 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 20px;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+        button { width: 100%; padding: 18px; background: #28a745; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 22px; font-weight: bold; margin-top: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button:hover { background: #218838; }
+        .error { color: #dc3545; font-size: 18px; font-weight: bold; background: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        
+        .neden-biz {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px dashed var(--input-border);
+            text-align: left;
+        }
+        .neden-biz h3 {
+            margin: 0 0 15px 0;
+            color: #007bff;
+            font-size: 22px;
+            text-align: center;
+        }
+        .madde {
+            background: var(--box-bg);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .madde span { font-size: 22px; }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+        .theme-toggle:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeBtn">🌙 Gece Modu</button>
+
+<div class="login-container">
+    <h1>İLY TEACHER</h1>
+    
+    <div class="indirim-banner">
+        🔥 %10 NAKİT İNDİRİMİ!
+    </div>
+
+    {% if error %} <p class="error">{{ error }}</p> {% endif %}
+    <form action="/login" method="POST">
+        <label for="username">Kullanici Adiniz:</label>
+        <input type="text" id="username" name="username" placeholder="Örn: veli123" required>
+        <label for="password">Sifreniz:</label>
+        <input type="password" id="password" name="password" placeholder="••••" required>
+        <button type="submit">Sisteme Giris Yap</button>
+    </form>
+
+    <div class="neden-biz">
+        <h3>Neden İLY TEACHER?</h3>
+        <div class="madde">
+            <span>🎯</span> 
+            <div><strong>Birebir Canlı Speaking:</strong> Tamamen konuşma ve pratik odaklı özel dersler.</div>
+        </div>
+        <div class="madde">
+            <span>📱</span> 
+            <div><strong>Kolay Kullanılabilir Panel:</strong> Karmaşık menüler olmadan kolay takip sistemi.</div>
+        </div>
+        <div class="madde">
+            <span>📈</span> 
+            <div><strong>Gelişim Takibi:</strong> Kalan derslerinizi ve bakiyenizi anlık görün.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const themeBtn = document.getElementById('themeBtn');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeBtn.textContent = '☀️ Gündüz Modu';
+    }
+
+    themeBtn.addEventListener('click', () => {
+        let theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeBtn.textContent = '🌙 Gece Modu';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeBtn.textContent = '☀️ Gündüz Modu';
+        }
+    });
+</script>
+</body>
+</html>
