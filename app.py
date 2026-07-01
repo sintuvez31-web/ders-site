@@ -4,14 +4,15 @@ import requests
 app = Flask(__name__)
 app.secret_key = 'cok_gizli_anahtar_123'
 
-# --- AYARLAR ---
-BIN_ID = '6a452d96f5f4af5e294e2344' # Kendi Bin ID'ni yaz
-MASTER_KEY = 'BURAYA_KENDI_MASTER_KEYINI_YAZ' # Kendi Key'ini yaz
+# BURAYI HİÇ DEĞİŞTİRME, KENDİ BİN_ID VE MASTER_KEY'İNİ SADECE İÇİNE YAZ
+BIN_ID = '6a452d96f5f4af5e294e2344'
+MASTER_KEY = '$2a$10$Vm/z9QlARXZ/0VCmOwuF7.0Y0lx4OMxSR9b8gTy4Sv5aR4U3A822O' 
 
 def load_data():
     try:
         url = f'https://api.jsonbin.io/v3/b/{BIN_ID}/latest'
         response = requests.get(url, headers={'X-Master-Key': MASTER_KEY})
+        # JSONBin API'si veriyi 'record' anahtarı içinde gönderir
         return response.json().get('record', {})
     except:
         return {}
@@ -36,18 +37,18 @@ def login():
             return redirect(url_for('admin_dashboard'))
         
         students = load_data()
-        if username in students and students[username].get('password') == password:
+        if username in students and str(students[username].get('password')) == str(password):
             session['username'] = username
             return redirect(url_for('dashboard'))
-        return "Hatalı Giriş! <a href='/login'>Geri Dön</a>", 401
+        return "Hatalı Giriş! <a href='/login'>Geri Dön</a>"
     return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
     if 'username' not in session or session['username'] == 'admin':
         return redirect(url_for('login'))
-    students = load_data()
-    return render_template('dashboard.html', user_data=students.get(session['username']))
+    user_data = load_data().get(session['username'])
+    return render_template('dashboard.html', user_data=user_data)
 
 @app.route('/admin')
 def admin_dashboard():
