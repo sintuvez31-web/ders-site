@@ -5,25 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İLY TEACHER - Giriş</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f7; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f7; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         
-        /* Ana taşıyıcı - mobilde dikey, masaüstünde yatay dizilim */
-        .wrapper { display: flex; flex-direction: row; gap: 20px; align-items: stretch; justify-content: center; width: 95%; max-width: 1100px; }
+        .wrapper { display: flex; flex-direction: row; gap: 20px; align-items: stretch; justify-content: center; width: 100%; max-width: 1100px; }
         
-        .side-panel { background: #ffffff; padding: 25px; border-radius: 16px; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid #007bff; display: flex; flex-direction: column; }
-        .login-container { background: #ffffff; padding: 40px; border-radius: 16px; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #28a745; flex-shrink: 0; }
+        .side-panel { background: #ffffff; padding: 25px; border-radius: 16px; width: 280px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid #007bff; display: flex; flex-direction: column; }
+        .login-container { background: #ffffff; padding: 40px; border-radius: 16px; width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #28a745; flex-shrink: 0; }
         
-        h1 { color: #ff0000; font-size: 32px; margin-bottom: 20px; }
+        h1 { color: #ff0000; font-size: 32px; margin-bottom: 20px; font-weight: bold; }
+        h3 { color: #333; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
         .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 25px; }
         
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; margin-top: 15px; }
-
-        /* Mobil düzenleme */
-        @media (max-width: 900px) {
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #218838; }
+        
+        ul { list-style: none; padding: 0; margin-top: 15px; text-align: left; }
+        li { margin-bottom: 12px; font-size: 15px; color: #555; }
+        
+        /* Mobil Uyum */
+        @media (max-width: 950px) {
             .wrapper { flex-direction: column; align-items: center; }
-            .side-panel { width: 90%; order: 2; } /* Alt kısma at */
-            .login-container { order: 1; width: 90%; } /* Üst kısma at */
+            .side-panel { width: 90%; order: 2; }
+            .login-container { order: 1; width: 90%; }
         }
     </style>
 </head>
@@ -33,13 +38,16 @@
     <!-- SOL PANEL -->
     <div class="side-panel">
         <h3>Hakkımızda</h3>
-        <p>İLY TEACHER ile eğitimde yeni nesil deneyim! Başarıyı şansa bırakma.</p>
+        <p>İLY TEACHER platformu ile eğitimde yeni nesil deneyimi yakala. Başarıya giden yolda yanındayız.</p>
     </div>
 
     <!-- GİRİŞ PANELİ -->
     <div class="login-container">
         <h1>İLY TEACHER</h1>
         <div class="indirim-banner">🔥 %10 NAKİT İNDİRİMİ!</div>
+        
+        {% if hata %} <p style="color:red; font-weight:bold;">{{ hata }}</p> {% endif %}
+        
         <form action="/login" method="POST">
             <input type="text" name="username" placeholder="Kullanıcı Adı" required>
             <input type="password" name="password" placeholder="Şifre" required>
@@ -51,8 +59,10 @@
     <div class="side-panel" style="border-top-color: #ffc107;">
         <h3>Neden İLY TEACHER?</h3>
         <ul>
-            <li>Kişiselleştirilmiş içerik</li>
-            <li>7/24 Kesintisiz destek</li>
+            <li>📚 <b>Kişiye özel ders planı</b></li>
+            <li>🗣️ <b>Konuşma odaklı eğitim</b></li>
+            <li>🎯 <b>Hedef garantili çalışma</b></li>
+            <li>💬 <b>Ders boyunca İngilizce pratik</b></li>
         </ul>
     </div>
 </div>
