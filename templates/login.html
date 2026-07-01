@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <title>İLY TEACHER - Giriş</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .wrapper { display: flex; gap: 20px; align-items: flex-start; }
-        .side-panel { background: white; padding: 25px; border-radius: 16px; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .login-container { background: white; padding: 40px; border-radius: 16px; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .wrapper { display: flex; gap: 20px; align-items: flex-start; max-width: 1000px; padding: 20px; }
+        
+        /* Renkli Paneller */
+        .side-panel { background: #ffffff; padding: 25px; border-radius: 16px; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid #007bff; }
+        .login-container { background: #ffffff; padding: 40px; border-radius: 16px; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #28a745; }
+        
         h1 { color: #ff0000; font-size: 35px; margin-bottom: 10px; }
-        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; margin-top: 15px; }
-        .error { color: #dc3545; font-weight: bold; padding: 10px; background: #f8d7da; border-radius: 5px; margin-bottom: 15px; }
+        h3 { color: #333; margin-top: 0; }
+        
+        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 12px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; }
+        
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ddd; border-radius: 8px; background: #f9f9f9; }
+        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        button:hover { background: #218838; }
+        
+        .error { color: #721c24; font-weight: bold; padding: 10px; background: #f8d7da; border-radius: 5px; margin-bottom: 15px; }
+        ul { padding-left: 20px; color: #555; }
     </style>
 </head>
 <body>
@@ -20,7 +29,7 @@
 <div class="wrapper">
     <div class="side-panel">
         <h3>Hakkımızda</h3>
-        <p>İLY TEACHER platformu ile eğitimde yeni nesil deneyimi yakala. Başarıya giden yolda yanındayız.</p>
+        <p>İLY TEACHER ile eğitimde yeni nesil deneyim! Başarıyı şansa bırakma, bizimle keşfet.</p>
     </div>
 
     <div class="login-container">
@@ -34,13 +43,13 @@
         </form>
     </div>
 
-    <div class="side-panel">
+    <div class="side-panel" style="border-top-color: #ffc107;">
         <h3>Neden İLY TEACHER?</h3>
         <ul>
             <li>Kişiselleştirilmiş içerik</li>
-            <li>7/24 destek</li>
+            <li>7/24 Kesintisiz destek</li>
             <li>Sürekli güncel veriler</li>
-            <li>Kolay kullanım</li>
+            <li>Kolay ve hızlı kullanım</li>
         </ul>
     </div>
 </div>
