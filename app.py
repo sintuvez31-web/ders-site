@@ -5,9 +5,8 @@ app = Flask(__name__)
 app.secret_key = 'cok_gizli_anahtar_123'
 
 # --- AYARLAR ---
-BIN_ID = '6a452d96f5f4af5e294e2344'
-MASTER_KEY = 'BURAYA_MASTER_KEY_YAZ'
-HEADERS = {'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}
+BIN_ID = '6a452d96f5f4af5e294e2344' # Kendi Bin ID'ni yaz
+MASTER_KEY = 'BURAYA_KENDI_MASTER_KEYINI_YAZ' # Kendi Key'ini yaz
 
 def load_data():
     try:
@@ -19,7 +18,8 @@ def load_data():
 
 def save_data(data):
     url = f'https://api.jsonbin.io/v3/b/{BIN_ID}'
-    requests.put(url, json=data, headers=HEADERS)
+    headers = {'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY}
+    requests.put(url, json=data, headers=headers)
 
 @app.route('/')
 def home():
@@ -27,7 +27,6 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    message = None
     if request.method == 'POST':
         username = request.form.get('username', '').strip().lower()
         password = request.form.get('password', '').strip()
@@ -37,13 +36,11 @@ def login():
             return redirect(url_for('admin_dashboard'))
         
         students = load_data()
-        if username in students and students[username]['password'] == password:
+        if username in students and students[username].get('password') == password:
             session['username'] = username
             return redirect(url_for('dashboard'))
-        
-        message = "Kullanıcı adı veya şifre hatalı!"
-        
-    return render_template('login.html', message=message)
+        return "Hatalı Giriş! <a href='/login'>Geri Dön</a>", 401
+    return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -61,9 +58,8 @@ def admin_dashboard():
 def add_student():
     if session.get('username') != 'admin': return redirect(url_for('login'))
     if request.method == 'POST':
-        username = request.form.get('username').lower()
         students = load_data()
-        students[username] = {
+        students[request.form.get('username').lower()] = {
             'password': request.form.get('password'),
             'name': request.form.get('name')
         }
