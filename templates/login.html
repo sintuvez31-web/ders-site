@@ -5,29 +5,44 @@
     <title>İLY TEACHER - Giriş</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .wrapper { display: flex; gap: 20px; align-items: flex-start; }
+        .side-panel { background: white; padding: 25px; border-radius: 16px; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .login-container { background: white; padding: 40px; border-radius: 16px; width: 420px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        
-        /* BAŞLIĞI BURADA GÖRÜNÜR YAPTIM */
-        h1 { color: #ff0000; font-size: 40px; margin-bottom: 20px; font-weight: bold; display: block; }
-        
-        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 15px; border-radius: 10px; font-size: 26px; font-weight: bold; margin-bottom: 25px; }
-        .error { color: #dc3545; font-size: 18px; font-weight: bold; background: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
-        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin-top: 10px; border: 2px solid #bbbbbb; border-radius: 8px; box-sizing: border-box; font-size: 18px; }
-        button { width: 100%; padding: 18px; background: #28a745; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 22px; font-weight: bold; margin-top: 25px; }
+        h1 { color: #ff0000; font-size: 35px; margin-bottom: 10px; }
+        .indirim-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; margin-top: 15px; }
+        .error { color: #dc3545; font-weight: bold; padding: 10px; background: #f8d7da; border-radius: 5px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <h1>İLY TEACHER</h1> <div class="indirim-banner">🔥 %10 NAKİT İNDİRİMİ!</div>
+<div class="wrapper">
+    <div class="side-panel">
+        <h3>Hakkımızda</h3>
+        <p>İLY TEACHER platformu ile eğitimde yeni nesil deneyimi yakala. Başarıya giden yolda yanındayız.</p>
+    </div>
 
-    {% if hata %} <p class="error">{{ hata }}</p> {% endif %}
+    <div class="login-container">
+        <h1>İLY TEACHER</h1>
+        <div class="indirim-banner">🔥 %10 NAKİT İNDİRİMİ!</div>
+        {% if hata %} <p class="error">{{ hata }}</p> {% endif %}
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+            <input type="password" name="password" placeholder="Şifre" required>
+            <button type="submit">Sisteme Giriş Yap</button>
+        </form>
+    </div>
 
-    <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-        <input type="password" name="password" placeholder="Şifre" required>
-        <button type="submit">Sisteme Giriş Yap</button>
-    </form>
+    <div class="side-panel">
+        <h3>Neden İLY TEACHER?</h3>
+        <ul>
+            <li>Kişiselleştirilmiş içerik</li>
+            <li>7/24 destek</li>
+            <li>Sürekli güncel veriler</li>
+            <li>Kolay kullanım</li>
+        </ul>
+    </div>
 </div>
 
 </body>
