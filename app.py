@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import requests
-import os
 
 app = Flask(__name__)
 app.secret_key = 'cok_gizli_anahtar_123'
 
-# JSONBin Ayarları
+# --- JSONBIN AYARLARI ---
 BIN_ID = 'BURAYA_BIN_ID_YAZ'
 MASTER_KEY = 'BURAYA_MASTER_KEY_YAZ'
 HEADERS = {'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}
@@ -42,7 +41,6 @@ def login():
         if username in students and students[username]['password'] == password:
             session['username'] = username
             return redirect(url_for('dashboard'))
-            
         return "Hatalı Giriş!", 401
     return render_template('login.html')
 
@@ -61,8 +59,23 @@ def admin_dashboard():
         return redirect(url_for('login'))
     return render_template('admin.html', students=load_data())
 
-# EĞER ADMIN PANELİNDE GÜNCELLEME YAPIYORSAN, 
-# ORADA save_data(yeni_veriler) KOMUTUNU KULLANMAYI UNUTMA!
+# YENİ EKLEDİĞİM ROTA (ÖĞRENCİ EKLEME)
+@app.route('/admin/add', methods=['GET', 'POST'])
+def add_student():
+    if session.get('username') != 'admin':
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username').lower()
+        password = request.form.get('password')
+        name = request.form.get('name')
+        
+        students = load_data()
+        students[username] = {'password': password, 'name': name}
+        save_data(students)
+        return redirect(url_for('admin_dashboard'))
+        
+    return render_template('add_student.html')
 
 @app.route('/logout')
 def logout():
