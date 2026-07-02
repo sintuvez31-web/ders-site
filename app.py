@@ -18,41 +18,28 @@ def load_data():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    hata = None
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        
         if username == 'admin' and password == '1234':
             session['username'] = 'admin'
             return redirect(url_for('admin'))
-        
         students = load_data()
         if username in students and students[username].get('password') == password:
             session['username'] = username
             return redirect(url_for('dashboard'))
-            
-    return render_template('login.html')
+        hata = "Hatalı giriş!"
+    return render_template('login.html', hata=hata)
 
 @app.route('/admin')
 def admin():
-    if session.get('username') != 'admin': 
-        return redirect(url_for('login'))
+    if session.get('username') != 'admin': return redirect(url_for('login'))
     return render_template('admin.html', students=load_data())
-
-@app.route('/dashboard')
-def dashboard():
-    if 'username' not in session or session['username'] == 'admin':
-        return redirect(url_for('login'))
-    
-    students = load_data()
-    student_data = students.get(session['username'], {})
-    return render_template('dashboard.html', student=student_data)
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
-    if session.get('username') != 'admin': 
-        return redirect(url_for('login'))
-    
+    if session.get('username') != 'admin': return redirect(url_for('login'))
     data = load_data()
     data[request.form.get('username')] = {
         "name": request.form.get('name'),
@@ -61,15 +48,40 @@ def add_student():
         "balance": request.form.get('balance'),
         "total_lessons": request.form.get('total_lessons')
     }
-    
     requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
-                 headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'},
-                 json=data)
+                 headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
+    return redirect(url_for('admin'))
+
+@app.route('/delete_student/<username>')
+def delete_student(username):
+    if session.get('username') != 'admin': return redirect(url_for('login'))
+    data = load_data()
+    if username in data:
+        del data[username]
+        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
+                     headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
+    return redirect(url_for('admin'))
+
+@app.route('/update_student', methods=['POST'])
+def update_student():
+    if session.get('username') != 'admin': return redirect(url_for('login'))
+    data = load_data()
+    username = request.form.get('username')
+    if username in data:
+        data[username] = {
+            "name": request.form.get('name'),
+            "password": request.form.get('password'),
+            "phone": request.form.get('phone'),
+            "balance": request.form.get('balance'),
+            "total_lessons": request.form.get('total_lessons')
+        }
+        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
+                     headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
     return redirect(url_for('admin'))
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.clear()
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
