@@ -2,41 +2,66 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Paneli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İLY TEACHER Admin</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
+        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; }
+        .main-content { flex: 1; padding: 40px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; width: 150px; }
+        button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; color: #333; }
+        
+        .logout-btn { color: #e74c3c; text-decoration: none; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>İLY TEACHER - Yönetim Paneli</h1>
-    <a href="/logout">Çıkış Yap</a>
-    
-    <hr>
-    
-    <h2>Öğrenci Ekle</h2>
-    <form action="/add_student" method="POST">
-        <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-        <input type="password" name="password" placeholder="Şifre" required>
-        <input type="text" name="name" placeholder="Ad Soyad" required>
-        <input type="text" name="phone" placeholder="Telefon">
-        <input type="number" name="balance" placeholder="Bakiye">
-        <input type="number" name="total_lessons" placeholder="Ders Sayısı">
-        <button type="submit">Ekle</button>
-    </form>
 
-    <hr>
+<div class="sidebar">
+    <h2>İLY TEACHER</h2>
+    <p>Yönetici Paneli</p>
+    <a href="/logout" class="logout-btn">← Çıkış Yap</a>
+</div>
 
-    <h2>Kayıtlı Öğrenciler</h2>
-    <table border="1">
-        <tr>
-            <th>Kullanıcı Adı</th>
-            <th>Ad Soyad</th>
-            <th>Bakiye</th>
-        </tr>
-        {% for user, data in students.items() %}
-        <tr>
-            <td>{{ user }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.balance }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="main-content">
+    <div class="card">
+        <h2>Yeni Öğrenci Ekle</h2>
+        <form action="/add_student" method="POST">
+            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+            <input type="password" name="password" placeholder="Şifre" required>
+            <input type="text" name="name" placeholder="Ad Soyad" required>
+            <input type="text" name="phone" placeholder="Telefon">
+            <input type="number" name="balance" placeholder="Bakiye">
+            <input type="number" name="total_lessons" placeholder="Ders Sayısı">
+            <button type="submit">Sisteme Ekle</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Kayıtlı Öğrenciler</h2>
+        <table>
+            <tr>
+                <th>Kullanıcı Adı</th>
+                <th>Ad Soyad</th>
+                <th>Bakiye</th>
+                <th>Ders Sayısı</th>
+            </tr>
+            {% for user, data in students.items() %}
+            <tr>
+                <td>{{ user }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.balance }} TL</td>
+                <td>{{ data.total_lessons }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
