@@ -43,7 +43,17 @@ def admin():
 def dashboard():
     if 'username' not in session or session['username'] == 'admin':
         return redirect(url_for('login'))
-    return "Öğrenci Paneli Yapım Aşamasında"
+    
+    data = load_data()
+    username = session['username']
+    user_info = data.get(username, {})
+    
+    # Dashboard.html'deki değişkenlerle veritabanındaki verileri eşliyoruz
+    return render_template('dashboard.html', user_data={
+        "name": user_info.get("name", "Öğrenci"),
+        "balance": user_info.get("balance", "0"),
+        "total_attended_courses": user_info.get("total_lessons", "0")
+    })
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
