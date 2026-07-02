@@ -21,23 +21,40 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        
+        # Admin kontrolü
         if username == 'admin' and password == '1234':
             session['username'] = 'admin'
             return redirect(url_for('admin'))
+        
+        # Öğrenci kontrolü
         students = load_data()
         if username in students and students[username].get('password') == password:
             session['username'] = username
-            return "Hoş geldin! Giriş başarılı."
+            return redirect(url_for('dashboard')) # Burası artık dashboard'a yönlendiriyor
+            
     return render_template('login.html')
 
 @app.route('/admin')
 def admin():
-    if session.get('username') != 'admin': return redirect(url_for('login'))
+    if session.get('username') != 'admin': 
+        return redirect(url_for('login'))
     return render_template('admin.html', students=load_data())
+
+# YENİ EKLENEN DASHBOARD ROTASI
+@app.route('/dashboard')
+def dashboard():
+    if 'username' not in session or session['username'] == 'admin':
+        return redirect(url_for('login'))
+    
+    students = load_data()
+    student_data = students.get(session['username'], {})
+    return render_template('dashboard.html', student=student_data)
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
-    if session.get('username') != 'admin': return redirect(url_for('login'))
+    if session.get('username') != 'admin': 
+        return redirect(url_for('login'))
     
     data = load_data()
     data[request.form.get('username')] = {
