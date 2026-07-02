@@ -2,46 +2,41 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Yönetim Paneli</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-        button { background: #28a745; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
-    </style>
+    <title>Admin Paneli</title>
 </head>
 <body>
-    <div class="card">
-        <h3>Yeni Öğrenci Ekle</h3>
-        <form action="/add_student" method="POST">
-            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-            <input type="text" name="name" placeholder="Ad Soyad" required>
-            <input type="password" name="password" placeholder="Şifre" required>
-            <input type="text" name="phone" placeholder="Telefon No">
-            <input type="number" name="balance" placeholder="Bakiye (TL)">
-            <input type="number" name="total_lessons" placeholder="Ders Sayısı">
-            <button type="submit">Kaydet</button>
-        </form>
-    </div>
-
-    <div class="card">
-        <h3>Öğrenci Listesi</h3>
-        <table>
-            <tr><th>Kullanıcı</th><th>Ad</th><th>Telefon</th><th>Bakiye</th><th>Ders</th></tr>
-            {% for u, info in students.items() %}
-            <tr>
-                <td>{{ u }}</td>
-                <td>{{ info.name }}</td>
-                <td>{{ info.phone }}</td>
-                <td>{{ info.balance }} TL</td>
-                <td>{{ info.total_lessons }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <h1>İLY TEACHER - Yönetim Paneli</h1>
     <a href="/logout">Çıkış Yap</a>
+    
+    <hr>
+    
+    <h2>Öğrenci Ekle</h2>
+    <form action="/add_student" method="POST">
+        <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+        <input type="password" name="password" placeholder="Şifre" required>
+        <input type="text" name="name" placeholder="Ad Soyad" required>
+        <input type="text" name="phone" placeholder="Telefon">
+        <input type="number" name="balance" placeholder="Bakiye">
+        <input type="number" name="total_lessons" placeholder="Ders Sayısı">
+        <button type="submit">Ekle</button>
+    </form>
+
+    <hr>
+
+    <h2>Kayıtlı Öğrenciler</h2>
+    <table border="1">
+        <tr>
+            <th>Kullanıcı Adı</th>
+            <th>Ad Soyad</th>
+            <th>Bakiye</th>
+        </tr>
+        {% for user, data in students.items() %}
+        <tr>
+            <td>{{ user }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.balance }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
