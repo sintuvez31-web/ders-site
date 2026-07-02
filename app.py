@@ -9,9 +9,8 @@ MASTER_KEY = '$2a$10$Vm/z9QlARXZ/0VCmOwuF7.0Y0lx4OMxSR9b8gTy4Sv5aR4U3A822O'
 
 def load_data():
     try:
-        url = f'https://api.jsonbin.io/v3/b/{BIN_ID}/latest'
         headers = {'X-Master-Key': MASTER_KEY}
-        response = requests.get(url, headers=headers)
+        response = requests.get(f'https://api.jsonbin.io/v3/b/{BIN_ID}/latest', headers=headers, timeout=5)
         return response.json().get('record', {}) if response.status_code == 200 else {}
     except:
         return {}
@@ -20,16 +19,18 @@ def load_data():
 def login():
     hata = None
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username == 'admin' and password == '1234':
+        user = request.form.get('username')
+        pwd = request.form.get('password')
+        
+        if user == 'admin' and pwd == '1234':
             session['username'] = 'admin'
             return redirect(url_for('admin'))
-        students = load_data()
-        if username in students and students[username].get('password') == password:
-            session['username'] = username
+            
+        data = load_data()
+        if user in data and str(data[user].get('password')) == str(pwd):
+            session['username'] = user
             return redirect(url_for('dashboard'))
-        hata = "Hatalı giriş!"
+        hata = "Hatalı kullanıcı adı veya şifre!"
     return render_template('login.html', hata=hata)
 
 @app.route('/admin')
@@ -39,44 +40,38 @@ def admin():
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
-    if session.get('username') != 'admin': return redirect(url_for('login'))
     data = load_data()
     data[request.form.get('username')] = {
-        "name": request.form.get('name'),
         "password": request.form.get('password'),
+        "name": request.form.get('name'),
         "phone": request.form.get('phone'),
         "balance": request.form.get('balance'),
         "total_lessons": request.form.get('total_lessons')
     }
-    requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
-                 headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
+    requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
     return redirect(url_for('admin'))
 
 @app.route('/delete_student/<username>')
 def delete_student(username):
-    if session.get('username') != 'admin': return redirect(url_for('login'))
     data = load_data()
     if username in data:
         del data[username]
-        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
-                     headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
+        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
     return redirect(url_for('admin'))
 
 @app.route('/update_student', methods=['POST'])
 def update_student():
-    if session.get('username') != 'admin': return redirect(url_for('login'))
     data = load_data()
-    username = request.form.get('username')
-    if username in data:
-        data[username] = {
-            "name": request.form.get('name'),
+    user = request.form.get('username')
+    if user in data:
+        data[user] = {
             "password": request.form.get('password'),
+            "name": request.form.get('name'),
             "phone": request.form.get('phone'),
             "balance": request.form.get('balance'),
             "total_lessons": request.form.get('total_lessons')
         }
-        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', 
-                     headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
+        requests.put(f'https://api.jsonbin.io/v3/b/{BIN_ID}', headers={'X-Master-Key': MASTER_KEY, 'Content-Type': 'application/json'}, json=data)
     return redirect(url_for('admin'))
 
 @app.route('/logout')
