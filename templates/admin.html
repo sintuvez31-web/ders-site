@@ -2,66 +2,59 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İLY TEACHER Admin</title>
+    <title>İLY TEACHER - Yönetim Paneli</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; display: flex; }
-        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; }
-        .main-content { flex: 1; padding: 40px; }
+        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; position: fixed; }
+        .main-content { margin-left: 290px; padding: 40px; width: calc(100% - 290px); }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; }
-        
-        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; width: 150px; }
-        button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #f8f9fa; color: #333; }
-        
-        .logout-btn { color: #e74c3c; text-decoration: none; font-weight: bold; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100px; }
+        button { padding: 8px 12px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #eee; }
+        .delete-btn { color: red; text-decoration: none; font-weight: bold; margin-left: 10px; }
     </style>
 </head>
 <body>
-
 <div class="sidebar">
     <h2>İLY TEACHER</h2>
-    <p>Yönetici Paneli</p>
-    <a href="/logout" class="logout-btn">← Çıkış Yap</a>
+    <a href="/logout" style="color:white;">← Çıkış Yap</a>
 </div>
-
 <div class="main-content">
     <div class="card">
         <h2>Yeni Öğrenci Ekle</h2>
         <form action="/add_student" method="POST">
             <input type="text" name="username" placeholder="Kullanıcı Adı" required>
             <input type="password" name="password" placeholder="Şifre" required>
-            <input type="text" name="name" placeholder="Ad Soyad" required>
-            <input type="text" name="phone" placeholder="Telefon">
-            <input type="number" name="balance" placeholder="Bakiye">
-            <input type="number" name="total_lessons" placeholder="Ders Sayısı">
-            <button type="submit">Sisteme Ekle</button>
+            <input type="text" name="name" placeholder="İsim" required>
+            <input type="text" name="phone" placeholder="Tel">
+            <input type="text" name="balance" placeholder="Bakiye">
+            <input type="text" name="total_lessons" placeholder="Ders">
+            <button type="submit">Ekle</button>
         </form>
     </div>
-
     <div class="card">
         <h2>Kayıtlı Öğrenciler</h2>
         <table>
-            <tr>
-                <th>Kullanıcı Adı</th>
-                <th>Ad Soyad</th>
-                <th>Bakiye</th>
-                <th>Ders Sayısı</th>
-            </tr>
+            <tr><th>K. Adı</th><th>Şifre</th><th>İsim</th><th>Tel</th><th>Bakiye</th><th>Ders</th><th>İşlemler</th></tr>
             {% for user, data in students.items() %}
-            <tr>
-                <td>{{ user }}</td>
-                <td>{{ data.name }}</td>
-                <td>{{ data.balance }} TL</td>
-                <td>{{ data.total_lessons }}</td>
-            </tr>
+            <form action="/update_student" method="POST">
+                <tr>
+                    <td><input type="text" name="username" value="{{ user }}" readonly></td>
+                    <td><input type="text" name="password" value="{{ data.password }}"></td>
+                    <td><input type="text" name="name" value="{{ data.name }}"></td>
+                    <td><input type="text" name="phone" value="{{ data.phone }}"></td>
+                    <td><input type="text" name="balance" value="{{ data.balance }}"></td>
+                    <td><input type="text" name="total_lessons" value="{{ data.total_lessons }}"></td>
+                    <td>
+                        <button type="submit">Güncelle</button>
+                        <a href="/delete_student/{{ user }}" class="delete-btn" onclick="return confirm('Silinsin mi?')">Sil</a>
+                    </td>
+                </tr>
+            </form>
             {% endfor %}
         </table>
     </div>
 </div>
-
 </body>
 </html>
