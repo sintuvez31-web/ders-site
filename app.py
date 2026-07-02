@@ -22,16 +22,14 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        # Admin kontrolü
         if username == 'admin' and password == '1234':
             session['username'] = 'admin'
             return redirect(url_for('admin'))
         
-        # Öğrenci kontrolü
         students = load_data()
         if username in students and students[username].get('password') == password:
             session['username'] = username
-            return redirect(url_for('dashboard')) # Burası artık dashboard'a yönlendiriyor
+            return redirect(url_for('dashboard'))
             
     return render_template('login.html')
 
@@ -41,7 +39,6 @@ def admin():
         return redirect(url_for('login'))
     return render_template('admin.html', students=load_data())
 
-# YENİ EKLENEN DASHBOARD ROTASI
 @app.route('/dashboard')
 def dashboard():
     if 'username' not in session or session['username'] == 'admin':
